@@ -1,0 +1,55 @@
+﻿@model BanHang_DaoNgocHai.Models.OrderDetails
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>OrderDetails</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Orders.OrdId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Orders.OrdId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Products.ProName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Products.ProName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Size)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Size)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Quantities)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Quantities)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

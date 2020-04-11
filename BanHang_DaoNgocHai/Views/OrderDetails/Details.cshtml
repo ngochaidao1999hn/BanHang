@@ -1,0 +1,50 @@
+﻿@model BanHang_DaoNgocHai.Models.OrderDetails
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>OrderDetails</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Orders.OrdId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Orders.OrdId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Products.ProName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Products.ProName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Size)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Size)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Quantities)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Quantities)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.OrderId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

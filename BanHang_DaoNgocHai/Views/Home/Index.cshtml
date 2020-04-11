@@ -1,0 +1,208 @@
+﻿@model IEnumerable<BanHang_DaoNgocHai.Models.Products>
+@{
+    ViewBag.Title = "Home Page";
+    int count = 0;
+    Random rand = new Random();
+}
+
+<div class="features_items">
+    <!--features_items-->
+    <h2 class="title text-center">Features Items</h2>
+    @foreach (var item in Model)
+    {
+    <div class="col-sm-4">
+        <div class="product-image-wrapper">
+            <div class="single-products">
+                <div class="productinfo text-center">
+                    <img src="../images/@item.Url" alt=""   height="300" />
+                    <h2>$@item.Price</h2>
+                    <p>@item.ProName</p>
+                    <a href="/Detail/Index/@item.ProId" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                </div>
+                <div class="product-overlay">
+                    <div class="overlay-content">
+                        <h2>$@item.Price</h2>
+                        <p>@item.ProName</p>
+                        <a href="/Detail/Index/@item.ProId" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                    </div>
+                </div>
+            </div>
+            <div class="choose">
+                <ul class="nav nav-pills nav-justified">
+                    <li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
+                    <li><a href="#"><i class="fa fa-plus-square"></i>Add to compare</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    }
+    </div>
+    <div class="category-tab">
+        <!--category-tab-->
+        <div class="col-sm-12">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#sport" data-toggle="tab">Sport</a></li>
+                <li><a href="#fashion" data-toggle="tab">Fashion</a></li>
+                <li><a href="#kid" data-toggle="tab">Kids</a></li>
+                <li><a href="#men" data-toggle="tab">Men</a></li>
+                <li><a href="#women" data-toggle="tab">Women</a></li>
+            </ul>
+        </div>
+        <div class="tab-content">
+            <div class="tab-pane fade active in" id="sport">
+                @foreach (var item in Model)
+                {
+                    if (item.Categories.CateName == "sport")
+                    {
+                <div class="col-sm-3">
+                    <div class="product-image-wrapper">
+                        <div class="single-products">
+                            <div class="productinfo text-center">
+                                <img src="../images/@item.Url" alt="" height="150" />
+                                <h2>$@item.Price</h2>
+                                <p>@item.ProName</p>
+                                <a href="/Detail/Index/@item.ProId" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                    }
+                }
+                </div>
+            <div class="tab-pane fade active in" id="fashion">
+                @foreach (var item in Model)
+                {
+                    if (item.Categories.CateName == "fashion")
+                    {
+                        <div class="col-sm-3">
+                            <div class="product-image-wrapper">
+                                <div class="single-products">
+                                    <div class="productinfo text-center">
+                                        <img src="../images/@item.Url" alt="" height="150" />
+                                        <h2>$@item.Price</h2>
+                                        <p>@item.ProName</p>
+                                        <a href="/Detail/Index/@item.ProId" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+            <div class="tab-pane fade active in" id="kid">
+                @foreach (var item in Model)
+                {
+                    if (item.Categories.CateName == "kid")
+                    {
+                        <div class="col-sm-3">
+                            <div class="product-image-wrapper">
+                                <div class="single-products">
+                                    <div class="productinfo text-center">
+                                        <img src="../images/@item.Url" alt="" height="150" />
+                                        <h2>$@item.Price</h2>
+                                        <p>@item.ProName</p>
+                                        <a href="/Detail/Index/@item.ProId" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+            <div class="tab-pane fade active in" id="men">
+                @foreach (var item in Model)
+                {
+                    if (item.Categories.CateName == "men")
+                    {
+                        <div class="col-sm-3">
+                            <div class="product-image-wrapper">
+                                <div class="single-products">
+                                    <div class="productinfo text-center">
+                                        <img src="../images/@item.Url" alt="" height="150" />
+                                        <h2>$@item.Price</h2>
+                                        <p>@item.ProName</p>
+                                        <a href="/Detail/Index/@item.ProId" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+            <div class="tab-pane fade active in" id="women">
+                @foreach (var item in Model)
+                {
+                    if (item.Categories.CateName == "women")
+                    {
+                        <div class="col-sm-3">
+                            <div class="product-image-wrapper">
+                                <div class="single-products">
+                                    <div class="productinfo text-center">
+                                        <img src="../images/@item.Url" alt="" height="150" />
+                                        <h2>$@item.Price</h2>
+                                        <p>@item.ProName</p>
+                                        <a href="/Detail/Index/@item.ProId" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+            </div>
+        </div>
+    <div class="recommended_items">
+        <!--recommended_items-->
+        <h2 class="title text-center">recommended items</h2>
+        <div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="item active">                                         
+                     @while (count == 4)
+                        {                           
+                                int RandomIndex = rand.Next( Model.Count());
+                            <div class="col-sm-4">
+                                <div class="product-image-wrapper">
+                                    <div class="single-products">
+                                        <div class="productinfo text-center">
+                                            <img src="~/images/@Model.ToList()[RandomIndex].Url" alt="" />
+                                            <h2>$@Model.ToList()[RandomIndex].Price</h2>
+                                            <p>@Model.ToList()[RandomIndex].ProName</p>
+                                            <a href="/Detail/Index/@Model.ToList()[RandomIndex].ProId" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                                count++;                         
+                        }                      
+                    </div>
+                <div class="item">
+                    @while (count == 4)
+                    {
+                        int RandomIndex = rand.Next(Model.Count());
+                        <div class="col-sm-4">
+                            <div class="product-image-wrapper">
+                                <div class="single-products">
+                                    <div class="productinfo text-center">
+                                        <img src="~/images/@Model.ToList()[RandomIndex].Url" alt="" />
+                                        <h2>$@Model.ToList()[RandomIndex].Price</h2>
+                                        <p>@Model.ToList()[RandomIndex].ProName</p>
+                                        <a href="/Detail/Index/@Model.ToList()[RandomIndex].ProId" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        count++;
+                    }
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    
