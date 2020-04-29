@@ -15,7 +15,7 @@ namespace BanHang_DaoNgocHai.Controllers
     public class OrdersController : Controller
     {
         private BanHangContext db = new BanHangContext();
-
+        
         // GET: Orders
         public async Task<ActionResult> Index()
         {
@@ -23,23 +23,48 @@ namespace BanHang_DaoNgocHai.Controllers
             return View(await orders.ToListAsync());
         }
         [HttpGet]
-        public ActionResult Order(int ProId, int Quantities)
+        public ActionResult Order(int ProId, string size)
         {
             if (Session["ClientId"] != null)
             {
+                //try
+                //{
+                //    string date = DateTime.Now.ToString();
+                //    int ClientId = Int32.Parse(Session["ClientId"].ToString());
+                //    var Date = new SqlParameter("@date", date);
+                //    var Client = new SqlParameter("@clientid", ClientId);
+                //    db.Database.ExecuteSqlCommand("Insert into Orders(Date,ClientsId)values('@date',@clientid)",Date,Client);
+                //    // return Redirect("/OrderDetails/SetOrder?Quantities=" + Quantities + "&ProId=" + ProId + "");
+                //    return Redirect("/Home/Index");
+                //}
+                //catch (Exception) {
+
+                //}
                 try
                 {
-                    string date = DateTime.Now.ToString();
-                    int ClientId = Int32.Parse(Session["ClientId"].ToString());
-                    var Date = new SqlParameter("@date", date);
-                    var Client = new SqlParameter("@clientid", ClientId);
-                    db.Database.ExecuteSqlCommand("Insert into Orders(Date,ClientsId)values('@date',@clientid)",Date,Client);
-                    // return Redirect("/OrderDetails/SetOrder?Quantities=" + Quantities + "&ProId=" + ProId + "");
-                    return Redirect("/Home/Index");
+                    db.Orders.Add(new Orders()
+                    {
+                        Date = DateTime.Now,
+                        ClientsId = Int32.Parse(Session["ClientId"].ToString()),
+                        status = 0
+                    });
+                    db.SaveChanges();
+                    var ordid = db.Orders.Where(o => o.ClientsId == Int32.Parse(Session["ClientId"].ToString())).LastOrDefault().OrdId;
+                    OrderDetailsController ord = new OrderDetailsController();
+                    ord.ListOrd.Add(new OrderDetails()
+                    {
+                        ProId = ProId,
+                        Size = size,
+                        Quantities = 1,
+                        OrderId = ordid
+
+                    });
                 }
-                catch (Exception) {
+                catch(Exception e) {
 
                 }
+               
+               
             }
             return Redirect("/Home/Index");
         }

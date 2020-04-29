@@ -32,7 +32,7 @@ namespace BanHang_DaoNgocHai.Controllers
         public ActionResult Login(Clients client)
         {
             
-                var account = db.Clients.Where(a => a.ClientEmail == client.ClientEmail  && a.PassWord == client.PassWord).FirstOrDefault();
+                var account = db.Clients.Where(a => a.ClientEmail == client.ClientEmail  && a.PassWord == CreateMD5Hash(client.PassWord)).FirstOrDefault();
                 if (account != null)
                 {
                     Session["UserEmail"] = account.ClientName;
@@ -176,18 +176,23 @@ namespace BanHang_DaoNgocHai.Controllers
         }
         public string CreateMD5Hash(string input)
         {
-            // Step 1, calculate MD5 hash from input
-            MD5 md5 = System.Security.Cryptography.MD5.Create();
-            byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(input);
-            byte[] hashBytes = md5.ComputeHash(inputBytes);
+            MD5 md5 = new MD5CryptoServiceProvider();
 
-            // Step 2, convert byte array to hex string
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < hashBytes.Length; i++)
+            //compute hash from the bytes of text  
+            md5.ComputeHash(ASCIIEncoding.ASCII.GetBytes(input));
+
+            //get hash result after compute it  
+            byte[] result = md5.Hash;
+
+            StringBuilder strBuilder = new StringBuilder();
+            for (int i = 0; i < result.Length; i++)
             {
-                sb.Append(hashBytes[i].ToString("X2"));
+                //change it into 2 hexadecimal digits  
+                //for each byte  
+                strBuilder.Append(result[i].ToString("x2"));
             }
-            return sb.ToString();
+
+            return strBuilder.ToString();
         }
 
         protected override void Dispose(bool disposing)

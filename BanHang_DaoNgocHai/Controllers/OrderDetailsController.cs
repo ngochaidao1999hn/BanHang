@@ -14,7 +14,7 @@ namespace BanHang_DaoNgocHai.Controllers
     public class OrderDetailsController : Controller
     {
         private BanHangContext db = new BanHangContext();
-
+        public List<OrderDetails> ListOrd = new List<OrderDetails>();
         // GET: OrderDetails
         public async Task<ActionResult> Index()
         {
