@@ -50,7 +50,7 @@ namespace BanHang_DaoNgocHai.Controllers
                     });
                     db.SaveChanges();
 
-                    ///Chuwa sua dc
+                    ///Chuwa sua dc order
                     
                     var data = db.Orders.Where(o => o.ClientsId == Int32.Parse(Session["ClientId"].ToString())).LastOrDefault();
                     Session["OrdId"] = data.OrdId;
