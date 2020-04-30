@@ -31,11 +31,11 @@ namespace BanHang_DaoNgocHai.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(Clients client)
         {
-            
-                var account = db.Clients.Where(a => a.ClientEmail == client.ClientEmail  && a.PassWord == CreateMD5Hash(client.PassWord)).FirstOrDefault();
+            var pass = CreateMD5Hash(client.PassWord);
+                var account = db.Clients.Where(a => a.ClientEmail == client.ClientEmail  && a.PassWord == pass ).FirstOrDefault();
                 if (account != null)
                 {
-                    Session["UserEmail"] = account.ClientName;
+                    Session["UserEmail"] = account.ClientEmail;
                     Session["ClientId"] = account.ClientId;
                     return Redirect("/Home/Index");
                 }
@@ -59,18 +59,28 @@ namespace BanHang_DaoNgocHai.Controllers
                     return View(client);
                 }
                 else {
-                    try
-                    {
+                   
                         client.PassWord = CreateMD5Hash(client.PassWord);
                         db.Clients.Add(client);
+                    try
+                    {
                         db.SaveChanges();
                         Session["UserEmail"] = client.ClientEmail;
                         Session["ClientId"] = client.ClientId;
                         return Redirect("/Home/Index");
                     }
-                    catch (Exception e) {
-                        return View(client);
+                    catch (DbEntityValidationException ex)
+                    {
+                        foreach (var entityValidationErrors in ex.EntityValidationErrors)
+                        {
+                            foreach (var validationError in entityValidationErrors.ValidationErrors)
+                            {
+                                Response.Write("Property: " + validationError.PropertyName + " Error: " + validationError.ErrorMessage);
+                            }
+                        }
                     }
+                  
+                  
                 }
             }
             return View(client);

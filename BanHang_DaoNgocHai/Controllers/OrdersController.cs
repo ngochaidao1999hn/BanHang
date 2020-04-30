@@ -40,7 +40,7 @@ namespace BanHang_DaoNgocHai.Controllers
                 //catch (Exception) {
 
                 //}
-                try
+                if (Session["OrdId"] == null)
                 {
                     db.Orders.Add(new Orders()
                     {
@@ -49,19 +49,34 @@ namespace BanHang_DaoNgocHai.Controllers
                         status = 0
                     });
                     db.SaveChanges();
-                    var ordid = db.Orders.Where(o => o.ClientsId == Int32.Parse(Session["ClientId"].ToString())).LastOrDefault().OrdId;
+
+                    ///Chuwa sua dc
+                    
+                    var data = db.Orders.Where(o => o.ClientsId == Int32.Parse(Session["ClientId"].ToString())).LastOrDefault();
+                    Session["OrdId"] = data.OrdId;
                     OrderDetailsController ord = new OrderDetailsController();
                     ord.ListOrd.Add(new OrderDetails()
                     {
                         ProId = ProId,
                         Size = size,
                         Quantities = 1,
-                        OrderId = ordid
+                        OrderId = Int32.Parse(Session["OrdId"].ToString())
 
                     });
+                    return Redirect("~/OrderDetails/AddOrder");
                 }
-                catch(Exception e) {
+                else
+                {
+                    OrderDetailsController ord = new OrderDetailsController();
+                    ord.ListOrd.Add(new OrderDetails()
+                    {
+                        ProId = ProId,
+                        Size = size,
+                        Quantities = 1,
+                        OrderId = Int32.Parse(Session["OrdId"].ToString())
 
+                    });
+                    return Redirect("~/OrderDetails/AddOrder");
                 }
                
                
