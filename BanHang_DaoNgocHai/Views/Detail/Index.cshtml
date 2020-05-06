@@ -29,7 +29,14 @@
 								<span>
 									<span>US $@item.Price</span>                                                         
 									<label>Size:</label>
-									<input type="text" name="size" value="" />
+									@*<input type="text" name="size" value="" />*@
+                                    <select data-val-required="The Size field is required." name="size">
+                                        <option value="S">S</option>
+                                        <option value="M">M</option>
+                                        <option value="L">L</option>
+                                        <option value="XL">XL</option>
+                                        <option value="XXL">XXL</option>
+                                    </select>
 									<button type="submit" class="btn btn-fefault cart">
 										<i class="fa fa-shopping-cart"></i>
 										Add to cart

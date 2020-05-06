@@ -9,8 +9,8 @@ namespace BanHang_DaoNgocHai.Models
 {
     public class OrderDetails
     {
-
         [Key]
+      public int Id { get; set; }
         public int OrderId { get; set; }
 
         public int ProId { get; set; }
