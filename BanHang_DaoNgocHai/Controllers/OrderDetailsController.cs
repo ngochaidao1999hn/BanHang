@@ -16,27 +16,13 @@ namespace BanHang_DaoNgocHai.Controllers
         private BanHangContext db = new BanHangContext();
         public List<OrderDetails> ListOrd = new List<OrderDetails>();
         // GET: OrderDetails
-        public async Task<ActionResult> Index(int ordId)
+        public async Task<ActionResult> Index()
         {
-            var orderDetails = db.OrderDetails.Include(o => o.Orders).Include(o => o.Products).Where(od=>od.OrderId==ordId);
+            int ordId = int.Parse(Session["OrdId"].ToString());
+            var orderDetails = db.OrderDetails.Include(o => o.Products).Where(o=>o.OrderId==ordId);
             return View(await orderDetails.ToListAsync());
         }
-        public ActionResult AddOrder() {
-            int ordId = 0;
-            foreach (var item in ListOrd) {
-                db.OrderDetails.Add(new OrderDetails()
-                {
-                    OrderId = item.OrderId,
-                    ProId = item.ProId,
-                    Quantities = item.Quantities,
-                    Size = item.Size
-
-                });
-                db.SaveChanges();
-                ordId = item.OrderId;
-            }
-            return Redirect("~/OrderDetails/Index?ordId="+ordId);
-        }
+       
 
         // GET: OrderDetails/Details/5
         public async Task<ActionResult> Details(int? id)

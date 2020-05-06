@@ -27,63 +27,57 @@ namespace BanHang_DaoNgocHai.Controllers
         {
             if (Session["ClientId"] != null)
             {
-                //try
-                //{
-                //    string date = DateTime.Now.ToString();
-                //    int ClientId = Int32.Parse(Session["ClientId"].ToString());
-                //    var Date = new SqlParameter("@date", date);
-                //    var Client = new SqlParameter("@clientid", ClientId);
-                //    db.Database.ExecuteSqlCommand("Insert into Orders(Date,ClientsId)values('@date',@clientid)",Date,Client);
-                //    // return Redirect("/OrderDetails/SetOrder?Quantities=" + Quantities + "&ProId=" + ProId + "");
-                //    return Redirect("/Home/Index");
-                //}
-                //catch (Exception) {
-
-                //}
                 if (Session["OrdId"] == null)
                 {
                     db.Orders.Add(new Orders()
                     {
                         Date = DateTime.Now,
-                        ClientsId = Int32.Parse(Session["ClientId"].ToString()),
+                        ClientsId = int.Parse(Session["ClientId"].ToString()),
                         status = 0
                     });
                     db.SaveChanges();
+                    ///Chuwa sua dc order                   
 
-                    ///Chuwa sua dc order
-                    
-                    var data = db.Orders.Where(o => o.ClientsId == Int32.Parse(Session["ClientId"].ToString())).LastOrDefault();
-                    Session["OrdId"] = data.OrdId;
-                    OrderDetailsController ord = new OrderDetailsController();
-                    ord.ListOrd.Add(new OrderDetails()
-                    {
-                        ProId = ProId,
-                        Size = size,
-                        Quantities = 1,
-                        OrderId = Int32.Parse(Session["OrdId"].ToString())
+                    return RedirectToAction("GetOrdId", new { ProId = ProId, size = size });
 
-                    });
-                    return Redirect("~/OrderDetails/AddOrder");
                 }
                 else
                 {
-                    OrderDetailsController ord = new OrderDetailsController();
-                    ord.ListOrd.Add(new OrderDetails()
-                    {
-                        ProId = ProId,
-                        Size = size,
-                        Quantities = 1,
-                        OrderId = Int32.Parse(Session["OrdId"].ToString())
-
-                    });
-                    return Redirect("~/OrderDetails/AddOrder");
+                    return RedirectToAction("PutProductToOrderDetail", new { ProId = ProId, size = size });
                 }
                
                
             }
             return Redirect("/Home/Index");
         }
+        public ActionResult GetOrdId(int ProId, string size) {
+            try
+            {
+                int ClientId = int.Parse(Session["ClientId"].ToString());
+                var data = db.Orders.Where(o => o.ClientsId == ClientId ).Max(o=>o.OrdId);
 
+
+                Session["OrdId"] = data;
+                return RedirectToAction("PutProductToOrderDetail", new { ProId = ProId, size = size });
+            }
+            catch (Exception e) {
+               // e.Message;
+                return Redirect("~/Detail/Index?id=" + ProId);
+            }
+        }
+        public ActionResult PutProductToOrderDetail(int ProId,string size) {
+            if (Session["OrdId"] != null) {
+                db.OrderDetails.Add(new OrderDetails() {
+                    OrderId=int.Parse(Session["OrdId"].ToString()),
+                    ProId=ProId,
+                    Size = size,
+                    Quantities=1
+                });
+                db.SaveChanges();
+                return Redirect("~/Home/Index");
+            }
+            return Redirect("~/Detail/Index?id=" + ProId);
+        }
         // GET: Orders/Details/5
         public async Task<ActionResult> Details(int? id)
         {
