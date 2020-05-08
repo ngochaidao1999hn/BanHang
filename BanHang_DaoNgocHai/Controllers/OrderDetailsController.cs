@@ -19,10 +19,62 @@ namespace BanHang_DaoNgocHai.Controllers
         public async Task<ActionResult> Index()
         {
             int ordId = int.Parse(Session["OrdId"].ToString());
-            var orderDetails = db.OrderDetails.Include(o => o.Products).Where(o=>o.OrderId==ordId);
+            var orderDetails = db.OrderDetails.Include(o => o.Products).Where(o => o.OrderId == ordId);
             return View(await orderDetails.ToListAsync());
         }
-       
+        //+1 vao quantities
+        public ActionResult IncreaseQuantities(int OrdDetailId) {
+            var data = db.OrderDetails.Where(o => o.Id == OrdDetailId).First();
+            if (data != null)
+            {
+                //OrderDetails ord = new OrderDetails()
+                //{
+                //    Id = OrdDetailId,
+                //    OrderId = data.OrderId,
+                //    ProId = data.ProId,
+                //    Quantities = data.Quantities + 1,
+                //    Size = data.Size
+                //};
+
+                //    db.Entry(ord).State = EntityState.Modified;
+                //    db.SaveChanges();
+                int newquantities = data.Quantities + 1;
+                db.Database.ExecuteSqlCommand("Update OrderDetails set Quantities ="+newquantities+" where Id ="+data.Id);
+                    return RedirectToAction("Index");
+               
+               
+            }
+            return RedirectToAction("Index");
+        
+    }
+        //-1 vao quantities
+        public ActionResult ReduceQuantities(int OrdDetailId) {
+            var data = db.OrderDetails.Where(o => o.Id == OrdDetailId).FirstOrDefault();
+            if (data != null)
+            {
+
+                //db.Entry(new OrderDetails()
+                //{
+                //    Id = OrdDetailId,
+                //    OrderId = data.OrderId,
+                //    ProId = data.ProId,
+                //    Quantities = data.Quantities -1,
+                //    Size = data.Size
+                //}).State = EntityState.Modified;
+                //db.SaveChanges();
+                int newquantities = data.Quantities - 1;
+                if (newquantities <= 0)
+                {
+                    db.Database.ExecuteSqlCommand("delete from OrderDetails where Id =" + data.Id);
+                }
+                else
+                {
+                    db.Database.ExecuteSqlCommand("Update OrderDetails set Quantities =" + newquantities + " where Id =" + data.Id);
+                }
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Index");
+        }
 
         // GET: OrderDetails/Details/5
         public async Task<ActionResult> Details(int? id)

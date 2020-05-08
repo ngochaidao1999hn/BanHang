@@ -62,7 +62,7 @@
                         <p>Shipping Order</p>
                         <textarea name="message" placeholder="Notes about your order, Special Notes for Delivery" rows="16"></textarea>
                         <label><a class="btn btn-primary" href="">Delete Bill</a>
-                                <a class="btn btn-primary" href="">Buy</a></label>
+                                <a class="btn btn-primary" href="/Orders/Buy?ordId=@Model.First().OrderId">Buy</a></label>
                     </div>
                 </div>
             </div>
@@ -98,9 +98,9 @@
                         </td>
                         <td class="cart_quantity">
                             <div class="cart_quantity_button">
-                                <a class="cart_quantity_up" href=""> + </a>
-                                <input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
-                                <a class="cart_quantity_down" href=""> - </a>
+                                <a class="cart_quantity_up" href="/OrderDetails/IncreaseQuantities?OrdDetailId=@item.Id"> + </a>
+                                <input class="cart_quantity_input" type="text" name="quantity" value="@item.Quantities" autocomplete="off" size="2">
+                                <a class="cart_quantity_down" href="/OrderDetails/ReduceQuantities?OrdDetailId=@item.Id"> - </a>
                             </div>
                         </td>
                         <td class="cart_total">

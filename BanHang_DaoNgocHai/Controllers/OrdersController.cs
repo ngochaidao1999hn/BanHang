@@ -78,6 +78,10 @@ namespace BanHang_DaoNgocHai.Controllers
             }
             return Redirect("~/Detail/Index?id=" + ProId);
         }
+        public ActionResult Buy(int ordId) {
+            db.Database.ExecuteSqlCommand("update Orders set status=1 where OrdId="+ordId);
+            return Redirect("/Home/Index");
+        }
         // GET: Orders/Details/5
         public async Task<ActionResult> Details(int? id)
         {
