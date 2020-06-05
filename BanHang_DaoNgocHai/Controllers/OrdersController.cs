@@ -80,6 +80,15 @@ namespace BanHang_DaoNgocHai.Controllers
         }
         public ActionResult Buy(int ordId) {
             db.Database.ExecuteSqlCommand("update Orders set status=1 where OrdId="+ordId);
+            Session["OrdId"] = null;
+            return Redirect("/Home/Index");
+        }
+        public ActionResult Remove(int ordId) {
+            db.Database.ExecuteSqlCommand("delete from OrderDetails where OrderId=" + ordId);
+            Orders ord = db.Orders.Where(o => o.OrdId == ordId).FirstOrDefault();
+            db.Orders.Remove(ord);
+            db.SaveChanges();
+            Session["OrdId"] = null;
             return Redirect("/Home/Index");
         }
         // GET: Orders/Details/5

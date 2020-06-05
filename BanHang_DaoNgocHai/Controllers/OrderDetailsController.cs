@@ -19,8 +19,18 @@ namespace BanHang_DaoNgocHai.Controllers
         public async Task<ActionResult> Index()
         {
             int ordId = int.Parse(Session["OrdId"].ToString());
-            var orderDetails = db.OrderDetails.Include(o => o.Products).Where(o => o.OrderId == ordId);
-            return View(await orderDetails.ToListAsync());
+            var orderDetails = db.OrderDetails.Include(o => o.Products).Where(o => o.OrderId == ordId).ToListAsync();
+            if (orderDetails != null)
+            {
+                return View(await orderDetails);
+            }
+            else {
+                return Redirect("~/Orders/Remove?ordId=" + Session["OrdId"]);
+            }
+        }
+        public ActionResult IndexAdmin() {
+            var orderDetails = db.OrderDetails.Include(o => o.Products);
+            return View(orderDetails.ToList());
         }
         //+1 vao quantities
         public ActionResult IncreaseQuantities(int OrdDetailId) {
@@ -73,6 +83,12 @@ namespace BanHang_DaoNgocHai.Controllers
                 }
                 return RedirectToAction("Index");
             }
+            return RedirectToAction("Index");
+        }
+        public ActionResult RemoveItem(int OrdDetailId) {
+            OrderDetails o = db.OrderDetails.Where(ord => ord.Id == OrdDetailId).FirstOrDefault();
+            db.OrderDetails.Remove(o);
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 

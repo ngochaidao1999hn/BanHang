@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    double totalprice = 0;
 }
 
 
@@ -61,8 +62,8 @@
                     <div class="order-message">
                         <p>Shipping Order</p>
                         <textarea name="message" placeholder="Notes about your order, Special Notes for Delivery" rows="16"></textarea>
-                        <label><a class="btn btn-primary" href="">Delete Bill</a>
-                                <a class="btn btn-primary" href="/Orders/Buy?ordId=@Model.First().OrderId">Buy</a></label>
+                        <label><a class="btn btn-primary" href="/Orders/Remove?ordId=@Session["OrdId"]">Delete Bill</a>
+                               <a class="btn btn-primary" href="/Orders/Buy?ordId=@Session["OrdId"]">Buy </a></label>
                     </div>
                 </div>
             </div>
@@ -111,9 +112,13 @@
 
 
 <td class="cart_delete">
-                            <a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
+                            <a class="cart_quantity_delete" href="/OrderDetails/RemoveItem?OrdDetailId=@item.Id"><i class="fa fa-times"></i></a>
                         </td>
                     </tr>
+                    
+                       totalprice += (item.Products.Price * item.Quantities);
+
+                   
                     }                   
                     <tr>
                         <td colspan="4">&nbsp;</td>
@@ -121,7 +126,7 @@
                             <table class="table table-condensed total-result">
                                 <tr>
                                     <td>Cart Sub Total</td>
-                                    <td>$59</td>
+                                    <td>$@totalprice</td>
                                 </tr>
                                 <tr>
                                     <td>Exo Tax</td>
@@ -133,7 +138,7 @@
                                 </tr>
                                 <tr>
                                     <td>Total</td>
-                                    <td><span>$61</span></td>
+                                    <td><span>$@(totalprice+2)</span></td>
                                 </tr>
                             </table>
                         </td>
