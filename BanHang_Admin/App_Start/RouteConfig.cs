@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace BanHang_DaoNgocHai
+namespace BanHang_Admin
 {
     public class RouteConfig
     {
@@ -19,6 +19,5 @@ namespace BanHang_DaoNgocHai
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
         }
-      
     }
 }

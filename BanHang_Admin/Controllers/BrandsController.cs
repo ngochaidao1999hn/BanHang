@@ -3,33 +3,31 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using BanHang_DaoNgocHai.Models;
+using BanHang_Admin.Models;
 
-namespace BanHang_DaoNgocHai.Controllers
+namespace BanHang_Admin.Controllers
 {
     public class BrandsController : Controller
     {
-        private BanHangContext db = new BanHangContext();
+        private shop db = new shop();
 
         // GET: Brands
-        [Route("admin/Brands/Index")]
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
-            return View(await db.Brands.ToListAsync());
+            return View(db.Brands.ToList());
         }
 
         // GET: Brands/Details/5
-        public async Task<ActionResult> Details(int? id)
+        public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Brands brands = await db.Brands.FindAsync(id);
+            Brands brands = db.Brands.Find(id);
             if (brands == null)
             {
                 return HttpNotFound();
@@ -48,12 +46,12 @@ namespace BanHang_DaoNgocHai.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "BrandId,BrandName")] Brands brands)
+        public ActionResult Create([Bind(Include = "BrandId,BrandName")] Brands brands)
         {
             if (ModelState.IsValid)
             {
                 db.Brands.Add(brands);
-                await db.SaveChangesAsync();
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -61,13 +59,13 @@ namespace BanHang_DaoNgocHai.Controllers
         }
 
         // GET: Brands/Edit/5
-        public async Task<ActionResult> Edit(int? id)
+        public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Brands brands = await db.Brands.FindAsync(id);
+            Brands brands = db.Brands.Find(id);
             if (brands == null)
             {
                 return HttpNotFound();
@@ -80,25 +78,25 @@ namespace BanHang_DaoNgocHai.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "BrandId,BrandName")] Brands brands)
+        public ActionResult Edit([Bind(Include = "BrandId,BrandName")] Brands brands)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(brands).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(brands);
         }
 
         // GET: Brands/Delete/5
-        public async Task<ActionResult> Delete(int? id)
+        public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Brands brands = await db.Brands.FindAsync(id);
+            Brands brands = db.Brands.Find(id);
             if (brands == null)
             {
                 return HttpNotFound();
@@ -109,11 +107,11 @@ namespace BanHang_DaoNgocHai.Controllers
         // POST: Brands/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int id)
         {
-            Brands brands = await db.Brands.FindAsync(id);
+            Brands brands = db.Brands.Find(id);
             db.Brands.Remove(brands);
-            await db.SaveChangesAsync();
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 
